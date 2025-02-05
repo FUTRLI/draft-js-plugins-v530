@@ -41,7 +41,7 @@ describe('test strategy with whitespace support disabled', () => {
       'should not match if no whitespace before trigger',
       'a lof@of text',
       ['@'],
-      [],
+      [[5, 8]],
     ],
     [
       'should match multiple mentions',
@@ -97,7 +97,7 @@ describe('test strategy with whitespace support enabled', () => {
       'should not match if no whitespace before trigger',
       'a lof@of text',
       ['@'],
-      [],
+      [[5, 13]],
     ],
     [
       'should match multiple mentions with spaces',
@@ -156,7 +156,7 @@ describe('test strategy with whitespace support enabled', () => {
         '@the walking dead tv the white house',
         [
           {
-            key: (key as unknown) as number,
+            key: key as unknown as number,
             offset: 20,
             length: 15,
           },
@@ -192,7 +192,10 @@ describe('multi mentions test strategy with whitespace support disabled', () => 
       'should match a word with special characters',
       '@ęĻŌ ęĻŌ(',
       ['@', '('],
-      [[0, 4]],
+      [
+        [0, 4],
+        [8, 9],
+      ],
     ],
     [
       'should match not match spaces',
@@ -213,10 +216,13 @@ describe('multi mentions test strategy with whitespace support disabled', () => 
       ],
     ],
     [
-      'should not match if no whitespace before trigger',
+      'should match if no whitespace before trigger',
       'a lof@of text(',
       ['@', '('],
-      [],
+      [
+        [5, 8],
+        [13, 14],
+      ],
     ],
     [
       'should match multiple mentions',
@@ -259,7 +265,10 @@ describe('multi mentions test strategy with whitespace support enabled', () => {
       'should match a word with special characters',
       '@ęĻŌ ęĻŌ(',
       ['@', '('],
-      [[0, 8]],
+      [
+        [0, 8],
+        [8, 9],
+      ],
     ],
     [
       'should match not match spaces',
@@ -280,10 +289,13 @@ describe('multi mentions test strategy with whitespace support enabled', () => {
       ],
     ],
     [
-      'should not match if no whitespace before trigger',
+      'should match if no whitespace before trigger',
       'a lof@of text(',
       ['@', '('],
-      [],
+      [
+        [5, 13],
+        [13, 14],
+      ],
     ],
     [
       'should match multiple mentions',
@@ -322,7 +334,7 @@ describe('multi mentions test strategy with whitespace support enabled', () => {
         '@the walking dead tv the white house',
         [
           {
-            key: (key as unknown) as number,
+            key: key as unknown as number,
             offset: 20,
             length: 15,
           },
