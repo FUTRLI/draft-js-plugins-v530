@@ -34,12 +34,3 @@ jobs:
 
       - name: Tests
         run: yarn test
-
-      - name: Build Website
-        run: ./scripts/publishGithubPages.sh
-
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.7.2
-        with:
-          branch: gh-pages
-          folder: packages/docs/out
