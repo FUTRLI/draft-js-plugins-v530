@@ -1,7 +1,9 @@
 {
   "name": "@draft-js-plugins/focus",
   "version": "4.1.5",
-  "sideEffects": ["*.css"],
+  "sideEffects": [
+    "*.css"
+  ],
   "description": "Focus Plugin for DraftJS",
   "author": {
     "name": "Benjamin Kniffler",
@@ -14,7 +16,9 @@
   "main": "lib/index.cjs.js",
   "module": "lib/index.esm.js",
   "types": "lib/index.d.ts",
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "keywords": [
     "editor",
     "wysiwyg",
@@ -36,7 +40,7 @@
   "license": "MIT",
   "dependencies": {
     "clsx": "^2.1.1",
-    "immutable": "~3.7.4"
+    "immutable": "^3.8.3"
   },
   "peerDependencies": {
     "draft-js": "^0.11.0",
