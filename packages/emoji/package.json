@@ -17,7 +17,9 @@
   "main": "lib/index.cjs.js",
   "module": "lib/index.esm.js",
   "types": "lib/index.d.ts",
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "keywords": [
     "editor",
     "wysiwyg",
@@ -46,9 +48,9 @@
     "emoji-toolkit": "^7.0",
     "emojibase": "^6.1.0",
     "emojibase-data": "^7.0.1",
-    "immutable": "~3.7.4",
-    "lodash": "^4.17.21",
-    "lodash-es": "^4.17.21",
+    "immutable": "^3.8.3",
+    "lodash": "^4.17.23",
+    "lodash-es": "^4.17.23",
     "prop-types": "^15.8.1",
     "react-custom-scrollbars-2": "^4.5.0",
     "react-icons": "^4.9.0",
