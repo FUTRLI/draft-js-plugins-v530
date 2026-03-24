@@ -1,3 +1,4 @@
+import * as Immutable from 'immutable';
 import { AriaProps, EditorCommand } from '@draft-js-plugins/editor';
 import {
   DraftHandleValue,
