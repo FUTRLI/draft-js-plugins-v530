@@ -76,15 +76,15 @@ import Editor from '@draft-js-plugins/editor';
 
 An editor component accepting plugins. [see source](https://github.com/draft-js-plugins/draft-js-plugins/blob/73d5f504ac62ef6c9e206f053e2800b2bf99c058/packages/editor/src/Editor/index.tsx#L24)
 
-| Props                                                           |                                         Description                                          | Required |
-| --------------------------------------------------------------- | :------------------------------------------------------------------------------------------: | -------: |
-| editorState                                                     | [see here](https://draftjs.org/docs/api-reference-editor-state/#content)                     |       \* |
-| onChange                                                        |   [see here](https://draftjs.org/docs/api-reference-editor/#onchange)                        |       \* |
-| plugins                                                         |                                     an array of plugins                                      |          |
-| decorators                                                      |                                an array of custom decorators                                 |          |
-| defaultKeyBindings                                              |                                             bool                                             |          |
-| defaultBlockRenderMap                                           |                                             bool                                             |          |
-| all other props accepted by the DraftJS Editor except decorator |     [see here](https://draftjs.org/docs/api-reference-editor/#props)                         |          |
+| Props                                                           |                               Description                                | Required |
+| --------------------------------------------------------------- | :----------------------------------------------------------------------: | -------: |
+| editorState                                                     | [see here](https://draftjs.org/docs/api-reference-editor-state/#content) |       \* |
+| onChange                                                        |   [see here](https://draftjs.org/docs/api-reference-editor/#onchange)    |       \* |
+| plugins                                                         |                           an array of plugins                            |          |
+| decorators                                                      |                      an array of custom decorators                       |          |
+| defaultKeyBindings                                              |                                   bool                                   |          |
+| defaultBlockRenderMap                                           |                                   bool                                   |          |
+| all other props accepted by the DraftJS Editor except decorator |     [see here](https://draftjs.org/docs/api-reference-editor/#props)     |          |
 
 Usage:
 
@@ -105,7 +105,7 @@ export default class UnicornEditor extends Component {
     editorState: EditorState.createEmpty(),
   };
 
-  onChange = editorState => {
+  onChange = (editorState) => {
     this.setState({
       editorState,
     });
