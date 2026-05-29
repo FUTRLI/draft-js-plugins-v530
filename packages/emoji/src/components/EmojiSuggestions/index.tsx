@@ -13,7 +13,7 @@ import {
 } from 'draft-js';
 import utils from '@draft-js-plugins/utils';
 import { AriaProps } from '@draft-js-plugins/editor';
-import { List } from 'immutable';
+import { List, Iterable } from 'immutable';
 import Entry from './Entry';
 import {
   EmojiImageProps,
@@ -60,7 +60,7 @@ export default class EmojiSuggestions extends Component<EmojiSuggestionsParams> 
   key!: string;
   filteredEmojis?: List<EmojiShape>;
   activeOffsetKey?: string;
-  lastSelectionIsInsideWord?: Immutable.Iterable<string, boolean>;
+  lastSelectionIsInsideWord?: Iterable<string, boolean>;
   lastSearchValue?: string;
 
   UNSAFE_componentWillMount(): void {
@@ -252,7 +252,7 @@ export default class EmojiSuggestions extends Component<EmojiSuggestionsParams> 
     keyboardEvent.preventDefault();
 
     const activeOffsetKey = this.lastSelectionIsInsideWord!.filter(
-      (value) => value === true
+      (value?: boolean) => value === true
     )
       .keySeq()
       .first();

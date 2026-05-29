@@ -1,5 +1,6 @@
 import React, { Component, ReactElement, ReactNode } from 'react';
 import { EditorState } from 'draft-js';
+import { Map } from 'immutable';
 import StickerOption from './StickerOption';
 import addSticker from '../modifiers/addSticker';
 import { StickerPluginTheme } from '../theme';
@@ -87,7 +88,7 @@ export default class StickerSelect extends Component<StickerSelectParams> {
   render(): ReactElement {
     // Create the sticker selection elements
     const data = this.props.stickers.get('data') as ImmutableStickerPluginItem;
-    const stickerElements = data.map((sticker) => {
+    const stickerElements = data.map((sticker?: Map<string, string>) => {
       const id = sticker!.get('id');
       const url = sticker!.get('url');
       return (

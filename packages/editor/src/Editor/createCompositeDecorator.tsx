@@ -7,12 +7,12 @@ import { List } from 'immutable';
 import React, { ReactElement } from 'react';
 
 export default function createCompositeDecorator(
-  decorators: Immutable.List<DraftDecorator>,
+  decorators: List<DraftDecorator>,
   getEditorState: () => EditorState,
   setEditorState: (state: EditorState) => void
 ): CompositeDecorator {
-  const convertedDecorators = List(decorators)
-    .map((decorator) => {
+  const convertedDecorators = List<DraftDecorator>(decorators)
+    .map((decorator?: DraftDecorator) => {
       const Component = decorator!.component;
       const DecoratedComponent = (
         props: Record<string, unknown>
@@ -24,7 +24,7 @@ export default function createCompositeDecorator(
         />
       );
       return {
-        ...decorator,
+        ...decorator!,
         component: DecoratedComponent,
       };
     })
