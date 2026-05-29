@@ -9,11 +9,8 @@ import Sticker, { StickerPubProps } from './Sticker';
 import StickerSelect, { StickerSelectPubParams } from './StickerSelect';
 import { defaultTheme, StickerPluginTheme } from './theme';
 
-export type ImmutableStickerPluginItem = Immutable.Map<
-  string,
-  Immutable.Map<string, string>
->;
-export type ImmutableDataStickerPluginItem = Immutable.Map<
+export type ImmutableStickerPluginItem = Map<string, Map<string, string>>;
+export type ImmutableDataStickerPluginItem = Map<
   string,
   ImmutableStickerPluginItem
 >;

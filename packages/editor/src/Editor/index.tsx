@@ -10,7 +10,7 @@ import {
   EditorProps,
   EditorState,
 } from 'draft-js';
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import PropTypes from 'prop-types';
 import React, { Component, KeyboardEvent, ReactElement } from 'react';
 import { AriaProps, EditorPlugin, EditorRef, PluginFunctions } from '..';
@@ -33,7 +33,7 @@ export interface PluginEditorProps extends Omit<EditorProps, 'keyBindingFn'> {
 
 // should be DraftDecoratorType but it is not accessible and does not habe decorators or _decorators
 interface DecoratorType {
-  decorators?: Immutable.List<string>;
+  decorators?: List<string>;
   _decorators?: string[];
 }
 

@@ -88,7 +88,10 @@ export default (config: FocusEditorPluginConfig = {}): FocusEditorPlugin => {
           return 'handled';
         }
       }
-      if (command === 'space' && focusableBlockIsSelected(editorState, blockKeyStore)) {
+      if (
+        command === 'space' &&
+        focusableBlockIsSelected(editorState, blockKeyStore)
+      ) {
         return 'handled';
       }
       return 'not-handled';
@@ -120,7 +123,11 @@ export default (config: FocusEditorPluginConfig = {}): FocusEditorPlugin => {
           lastSelection.getStartKey(),
           lastSelection.getEndKey()
         );
-        if (lastBlockMapKeys.some((key) => focusableBlockKeys.includes(key!))) {
+        if (
+          lastBlockMapKeys.some((key?: string) =>
+            focusableBlockKeys.includes(key!)
+          )
+        ) {
           lastSelection = selection;
           return forceSelection(editorState);
         }
@@ -132,7 +139,9 @@ export default (config: FocusEditorPluginConfig = {}): FocusEditorPlugin => {
         selection.getEndKey()
       );
       if (
-        currentBlockMapKeys.some((key) => focusableBlockKeys.includes(key!))
+        currentBlockMapKeys.some((key?: string) =>
+          focusableBlockKeys.includes(key!)
+        )
       ) {
         lastSelection = selection;
         return forceSelection(editorState);
