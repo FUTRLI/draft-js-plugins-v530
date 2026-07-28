@@ -21,7 +21,7 @@
     "tmp": "0.2.7",
     "fast-uri": "3.1.4",
     "minimatch/brace-expansion": "1.1.13",
-    "postcss": "8.5.10"
+    "postcss": "8.5.18"
   },
   "dependencies": {
     "draft-js": "^0.11.0",
