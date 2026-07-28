@@ -7,7 +7,12 @@ interface TriggerForMentionResult {
   activeTrigger: string;
 }
 
-function filterUndefineds(value: unknown | undefined): boolean {
+interface DecoratorRange {
+  start: number;
+  end: number;
+}
+
+function filterUndefineds<T>(value: T | undefined): value is T {
   return value !== undefined;
 }
 
@@ -34,10 +39,11 @@ export default function getTriggerForMention(
   // do not check leaves, use full decorated portal text
   const leaves = offsetDetails
     .filter((offsetDetail) => offsetDetail!.blockKey === anchorKey)
-    .map((offsetDetail) =>
-      editorState
-        .getBlockTree(offsetDetail!.blockKey)
-        .getIn([offsetDetail!.decoratorKey])
+    .map(
+      (offsetDetail) =>
+        editorState
+          .getBlockTree(offsetDetail!.blockKey)
+          .getIn([offsetDetail!.decoratorKey]) as DecoratorRange | undefined
     );
 
   // if all leaves are undefined the popover should be removed
@@ -52,7 +58,7 @@ export default function getTriggerForMention(
     .getBlockForKey(anchorKey)
     .getText();
   const triggerForSelectionInsideWord = leaves
-    .filter(filterUndefineds)
+    .filter((leave): leave is DecoratorRange => leave !== undefined)
     .map(
       ({ start, end }) =>
         mentionTriggers
@@ -83,10 +89,11 @@ export default function getTriggerForMention(
     return null;
   }
 
-  const [
-    activeOffsetKey,
-    activeTrigger,
-  ] = triggerForSelectionInsideWord.entrySeq().first();
+  const activeEntry = triggerForSelectionInsideWord.entrySeq().first();
+  if (activeEntry === undefined) {
+    return null;
+  }
+  const [activeOffsetKey, activeTrigger] = activeEntry;
 
   return {
     activeOffsetKey,

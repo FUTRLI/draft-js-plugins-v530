@@ -7,6 +7,10 @@ import {
 } from 'draft-js';
 import createFocusPlugin from '../index';
 
+const ContentBlockRecord = ContentBlock as unknown as new (
+  properties: Record<string, unknown>
+) => ContentBlock;
+
 const mockCreateBlockKeyStore = jest.requireActual(
   '../utils/createBlockKeyStore'
 );
@@ -36,12 +40,12 @@ describe('FocusPlugin', () => {
   });
 
   const createEditorStateFromBlocks = (): EditorState => {
-    const block1 = new ContentBlock({
+    const block1 = new ContentBlockRecord({
       key: 'non-selected-block',
       text: ' ',
       type: 'atomic',
     });
-    const block2 = new ContentBlock({
+    const block2 = new ContentBlockRecord({
       key: 'selected-block',
       text: ' ',
       type: 'atomic',

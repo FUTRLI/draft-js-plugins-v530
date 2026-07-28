@@ -6,12 +6,7 @@ import { EditorState, Modifier, SelectionState } from 'draft-js';
 
 export default (editorState: EditorState, blockKey: string): EditorState => {
   let content = editorState.getCurrentContent();
-  const newSelection = new SelectionState({
-    anchorKey: blockKey,
-    anchorOffset: 0,
-    focusKey: blockKey,
-    focusOffset: 0,
-  });
+  const newSelection = SelectionState.createEmpty(blockKey);
 
   const afterKey = content.getKeyAfter(blockKey);
   const afterBlock = content.getBlockForKey(afterKey);
@@ -26,17 +21,11 @@ export default (editorState: EditorState, blockKey: string): EditorState => {
     afterBlock.getLength() === 0 &&
     afterBlock === content.getBlockMap().last()
   ) {
-    targetRange = new SelectionState({
-      anchorKey: blockKey,
-      anchorOffset: 0,
+    targetRange = SelectionState.createEmpty(blockKey).merge({
       focusKey: afterKey,
-      focusOffset: 0,
     });
   } else {
-    targetRange = new SelectionState({
-      anchorKey: blockKey,
-      anchorOffset: 0,
-      focusKey: blockKey,
+    targetRange = SelectionState.createEmpty(blockKey).merge({
       focusOffset: 1,
     });
   }

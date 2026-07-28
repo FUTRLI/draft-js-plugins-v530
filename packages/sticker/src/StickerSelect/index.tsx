@@ -88,9 +88,13 @@ export default class StickerSelect extends Component<StickerSelectParams> {
   render(): ReactElement {
     // Create the sticker selection elements
     const data = this.props.stickers.get('data') as ImmutableStickerPluginItem;
-    const stickerElements = data.map((sticker?: Map<string, string>) => {
-      const id = sticker!.get('id');
-      const url = sticker!.get('url');
+    const stickerElements = data.map((sticker: Map<string, string>) => {
+      const id = sticker.get('id');
+      const url = sticker.get('url');
+      if (id === undefined || url === undefined) {
+        return null;
+      }
+
       return (
         <StickerOption
           theme={this.props.theme}

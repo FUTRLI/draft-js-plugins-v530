@@ -86,7 +86,7 @@ export class MentionSuggestions extends Component<MentionSuggestionsProps> {
   activeOffsetKey?: string;
   lastSearchValue?: string;
   lastActiveTrigger?: string = '';
-  lastSelectionIsInsideWord?: Immutable.Iterable<string, boolean>;
+  lastSelectionIsInsideWord?: Immutable.Map<string, boolean>;
 
   constructor(props: MentionSuggestionsProps) {
     super(props);

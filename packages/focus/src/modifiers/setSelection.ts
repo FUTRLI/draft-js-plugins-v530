@@ -18,7 +18,7 @@ export default (
       ? editorState.getCurrentContent().getBlockBefore(selectionKey)
       : editorState.getCurrentContent().getBlockAfter(selectionKey);
 
-  if (newActiveBlock && newActiveBlock.get('key') === selectionKey) {
+  if (newActiveBlock && newActiveBlock.getKey() === selectionKey) {
     return;
   }
 
@@ -42,10 +42,8 @@ export default (
     setEditorState(
       EditorState.forceSelection(
         editorState,
-        new SelectionState({
-          anchorKey: newActiveBlock.getKey(),
+        SelectionState.createEmpty(newActiveBlock.getKey()).merge({
           anchorOffset: offset,
-          focusKey: newActiveBlock.getKey(),
           focusOffset: offset,
           isBackward: false,
         })

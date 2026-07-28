@@ -13,7 +13,7 @@ import {
 } from 'draft-js';
 import utils from '@draft-js-plugins/utils';
 import { AriaProps } from '@draft-js-plugins/editor';
-import { List, Iterable } from 'immutable';
+import { is, List, Map } from 'immutable';
 import Entry from './Entry';
 import {
   EmojiImageProps,
@@ -50,6 +50,11 @@ interface EmojiSuggestionsParams extends EmojiSuggestionsPubParams {
   popperOptions?: PopperOptions;
 }
 
+interface DecoratorLeaf {
+  start: number;
+  end: number;
+}
+
 export default class EmojiSuggestions extends Component<EmojiSuggestionsParams> {
   state = {
     isActive: false,
@@ -60,7 +65,7 @@ export default class EmojiSuggestions extends Component<EmojiSuggestionsParams> 
   key!: string;
   filteredEmojis?: List<EmojiShape>;
   activeOffsetKey?: string;
-  lastSelectionIsInsideWord?: Iterable<string, boolean>;
+  lastSelectionIsInsideWord?: Map<string, boolean>;
   lastSearchValue?: string;
 
   UNSAFE_componentWillMount(): void {
@@ -145,10 +150,15 @@ export default class EmojiSuggestions extends Component<EmojiSuggestionsParams> 
     // a leave can be empty when it is removed due e.g. using backspace
     const leaves = offsetDetails
       .filter((offsetDetail) => offsetDetail!.blockKey === anchorKey)
-      .map((offsetDetail) =>
-        editorState
-          .getBlockTree(offsetDetail!.blockKey)
-          .getIn([offsetDetail!.decoratorKey, 'leaves', offsetDetail!.leafKey])
+      .map(
+        (offsetDetail) =>
+          editorState
+            .getBlockTree(offsetDetail!.blockKey)
+            .getIn([
+              offsetDetail!.decoratorKey,
+              'leaves',
+              offsetDetail!.leafKey,
+            ]) as DecoratorLeaf | undefined
       );
 
     // if all leaves are undefined the popover should be removed
@@ -161,7 +171,7 @@ export default class EmojiSuggestions extends Component<EmojiSuggestionsParams> 
     // the @ causes troubles due selection confusion.
     const plainText = editorState.getCurrentContent().getPlainText();
     const selectionIsInsideWord = leaves
-      .filter((leave) => leave !== undefined)
+      .filter((leave): leave is DecoratorLeaf => leave !== undefined)
       .map(
         ({ start, end }) =>
           (start === 0 &&
@@ -202,7 +212,7 @@ export default class EmojiSuggestions extends Component<EmojiSuggestionsParams> 
     // or the selection was moved to another emoji search
     if (
       this.lastSelectionIsInsideWord === undefined ||
-      !selectionIsInsideWord.equals(this.lastSelectionIsInsideWord)
+      !is(selectionIsInsideWord, this.lastSelectionIsInsideWord)
     ) {
       this.setState({
         focusedOptionIndex: 0,
@@ -256,7 +266,9 @@ export default class EmojiSuggestions extends Component<EmojiSuggestionsParams> 
     )
       .keySeq()
       .first();
-    this.props.store.escapeSearch(activeOffsetKey);
+    if (activeOffsetKey !== undefined) {
+      this.props.store.escapeSearch(activeOffsetKey);
+    }
     this.closeDropdown();
 
     // to force a re-render of the outer component to change the aria props
@@ -299,7 +311,12 @@ export default class EmojiSuggestions extends Component<EmojiSuggestionsParams> 
   };
 
   commitSelection = (): DraftHandleValue => {
-    this.onEmojiSelect(this.filteredEmojis!.get(this.state.focusedOptionIndex));
+    const emoji = this.filteredEmojis?.get(this.state.focusedOptionIndex);
+    if (emoji === undefined) {
+      return 'not-handled';
+    }
+
+    this.onEmojiSelect(emoji);
     return 'handled';
   };
 

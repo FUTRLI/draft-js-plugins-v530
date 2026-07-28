@@ -10,6 +10,12 @@ import {
   ContentState,
 } from 'draft-js';
 
+// Draft.js ContentBlock remains constructible at runtime, but its legacy type
+// definition loses the constructor signature when paired with Immutable 4.
+const ContentBlockRecord = ContentBlock as unknown as new (
+  properties: Record<string, unknown>
+) => ContentBlock;
+
 export default function addBlock(
   editorState: EditorState,
   selection: SelectionState,
@@ -30,7 +36,7 @@ export default function addBlock(
 
   // deciding on the postion to split the text
   const targetSelection = afterRemovalContentState.getSelectionAfter();
-  const blockKeyForTarget = targetSelection.get('focusKey');
+  const blockKeyForTarget = targetSelection.getFocusKey();
   const block = currentContentState.getBlockForKey(blockKeyForTarget);
   let insertionTargetSelection;
   let insertionTargetBlock;
@@ -72,7 +78,7 @@ export default function addBlock(
   const charData = CharacterMetadata.create({ entity: entityKey });
 
   const fragmentArray = [
-    new ContentBlock({
+    new ContentBlockRecord({
       key: genKey(),
       type,
       text,
@@ -80,7 +86,7 @@ export default function addBlock(
     }),
 
     // new contentblock so we can continue wrting right away after inserting the block
-    new ContentBlock({
+    new ContentBlockRecord({
       key: genKey(),
       type: 'unstyled',
       text: '',

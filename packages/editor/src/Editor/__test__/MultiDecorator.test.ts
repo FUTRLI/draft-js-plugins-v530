@@ -2,9 +2,8 @@ import Draft from 'draft-js';
 import MultiDecorator from '../MultiDecorator';
 
 describe('MultiDecorator', () => {
-  const contentBlock = new Draft.ContentBlock({
-    text: 'AAA BBB CCC ABC',
-  });
+  const contentBlock =
+    Draft.ContentState.createFromText('AAA BBB CCC ABC').getFirstBlock();
 
   const firstDecorator = new Draft.CompositeDecorator([
     {
