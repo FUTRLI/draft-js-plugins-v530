@@ -1,8 +1,8 @@
 import { EditorState } from 'draft-js';
-import { Iterable } from 'immutable';
+import { Seq } from 'immutable';
 import getBlockMapKeys from './getBlockMapKeys';
 
-export default (editorState: EditorState): Iterable<number, string> => {
+export default (editorState: EditorState): Seq.Indexed<string> => {
   const selectionState = editorState.getSelection();
   const contentState = editorState.getCurrentContent();
   return getBlockMapKeys(

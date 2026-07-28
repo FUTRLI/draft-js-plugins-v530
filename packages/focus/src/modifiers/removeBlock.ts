@@ -14,10 +14,7 @@ export default function removeBlock(
   // Note: if the focused block is the first block then it is reduced to an
   // unstyled block with no character
   if (beforeBlock === undefined) {
-    const targetRange = new SelectionState({
-      anchorKey: blockKey,
-      anchorOffset: 0,
-      focusKey: blockKey,
+    const targetRange = SelectionState.createEmpty(blockKey).merge({
       focusOffset: 1,
     });
     // change the blocktype and remove the characterList entry with the sticker
@@ -26,17 +23,11 @@ export default function removeBlock(
     const newState = EditorState.push(editorState, content, 'remove-range');
 
     // force to new selection
-    const newSelection = new SelectionState({
-      anchorKey: blockKey,
-      anchorOffset: 0,
-      focusKey: blockKey,
-      focusOffset: 0,
-    });
+    const newSelection = SelectionState.createEmpty(blockKey);
     return EditorState.forceSelection(newState, newSelection);
   }
 
-  const targetRange = new SelectionState({
-    anchorKey: beforeKey,
+  const targetRange = SelectionState.createEmpty(beforeKey).merge({
     anchorOffset: beforeBlock.getLength(),
     focusKey: blockKey,
     focusOffset: 1,
@@ -46,10 +37,8 @@ export default function removeBlock(
   const newState = EditorState.push(editorState, content, 'remove-range');
 
   // force to new selection
-  const newSelection = new SelectionState({
-    anchorKey: beforeKey,
+  const newSelection = SelectionState.createEmpty(beforeKey).merge({
     anchorOffset: beforeBlock.getLength(),
-    focusKey: beforeKey,
     focusOffset: beforeBlock.getLength(),
   });
   return EditorState.forceSelection(newState, newSelection);

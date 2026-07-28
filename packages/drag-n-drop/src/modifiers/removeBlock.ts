@@ -17,17 +17,11 @@ export default function removeBlock(
     afterBlock.getLength() === 0 &&
     afterBlock === contentState.getBlockMap().last()
   ) {
-    targetRange = new SelectionState({
-      anchorKey: blockKey,
-      anchorOffset: 0,
+    targetRange = SelectionState.createEmpty(blockKey).merge({
       focusKey: afterKey,
-      focusOffset: 0,
     });
   } else {
-    targetRange = new SelectionState({
-      anchorKey: blockKey,
-      anchorOffset: 0,
-      focusKey: blockKey,
+    targetRange = SelectionState.createEmpty(blockKey).merge({
       focusOffset: 1,
     });
   }

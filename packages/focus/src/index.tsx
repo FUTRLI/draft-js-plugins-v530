@@ -1,5 +1,6 @@
 import { EditorState, SelectionState, ContentState } from 'draft-js';
 import { EditorPlugin } from '@draft-js-plugins/editor';
+import { is } from 'immutable';
 import insertNewLine from './modifiers/insertNewLine';
 import setSelection from './modifiers/setSelection';
 import setSelectionToBlock from './modifiers/setSelectionToBlock';
@@ -102,7 +103,7 @@ export default (config: FocusEditorPluginConfig = {}): FocusEditorPlugin => {
       // since if a block was added it will be rendered anyway and if it was text
       // then the change was not a pure selection change
       const contentState = editorState.getCurrentContent();
-      if (!contentState.equals(lastContentState!)) {
+      if (!is(contentState, lastContentState)) {
         lastContentState = contentState;
         return editorState;
       }
@@ -110,7 +111,7 @@ export default (config: FocusEditorPluginConfig = {}): FocusEditorPlugin => {
 
       // if the selection didn't change there is no need to re-render
       const selection = editorState.getSelection();
-      if (lastSelection && selection.equals(lastSelection)) {
+      if (lastSelection && is(selection, lastSelection)) {
         lastSelection = editorState.getSelection();
         return editorState;
       }

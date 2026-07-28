@@ -5,20 +5,20 @@ interface UploadPlaceholderParams {
   block: ContentBlock;
   blockProps: {
     resizeData: {
-      name: string,
-      progress: string
-    }
+      name: string;
+      progress: string;
+    };
   };
 }
 
-export default function UploadPlaceholder(props: UploadPlaceholderParams): ReactElement {
-  const {
-    blockProps,
-    block,
-  } = props;
+export default function UploadPlaceholder(
+  props: UploadPlaceholderParams
+): ReactElement {
+  const { blockProps, block } = props;
   return (
-    <span contentEditable={false} data-offset-key={`${block.get('key')}-0-0`}>
-      ![Uploading {blockProps.resizeData.name}...]({blockProps.resizeData.progress}){' '}
+    <span contentEditable={false} data-offset-key={`${block.getKey()}-0-0`}>
+      ![Uploading {blockProps.resizeData.name}...](
+      {blockProps.resizeData.progress}){' '}
     </span>
   );
 }

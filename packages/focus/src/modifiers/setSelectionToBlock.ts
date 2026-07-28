@@ -26,13 +26,7 @@ export default (
   setEditorState(
     EditorState.forceSelection(
       editorState,
-      new SelectionState({
-        anchorKey: newActiveBlock.getKey(),
-        anchorOffset: 0,
-        focusKey: newActiveBlock.getKey(),
-        focusOffset: 0,
-        isBackward: false,
-      })
+      SelectionState.createEmpty(newActiveBlock.getKey())
     )
   );
 };

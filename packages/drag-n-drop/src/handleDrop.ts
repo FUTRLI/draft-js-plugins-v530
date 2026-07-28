@@ -47,12 +47,7 @@ export default (
     );
 
     // force to new selection
-    const newSelection = new SelectionState({
-      anchorKey: blockKey,
-      anchorOffset: 0,
-      focusKey: blockKey,
-      focusOffset: 0,
-    });
+    const newSelection = SelectionState.createEmpty(blockKey);
     const newState = EditorState.push(
       editorState,
       contentStateAfterRemove,

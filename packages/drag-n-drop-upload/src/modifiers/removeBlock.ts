@@ -2,27 +2,23 @@ import { Modifier, EditorState, SelectionState } from 'draft-js';
 
 export default function removeBlock(
   editorState: EditorState,
-  blockKey: string,
+  blockKey: string
 ): EditorState {
-
   const content = editorState.getCurrentContent();
   const block = content.getBlockForKey(blockKey);
 
-  const targetRange = new SelectionState({
-    anchorKey: blockKey,
-    anchorOffset: 0,
-    focusKey: blockKey,
+  const targetRange = SelectionState.createEmpty(blockKey).merge({
     focusOffset: block.getLength(),
   });
 
-  const withoutBlock = Modifier.removeRange(content, targetRange, "backward");
+  const withoutBlock = Modifier.removeRange(content, targetRange, 'backward');
   const resetBlock = Modifier.setBlockType(
     withoutBlock,
     withoutBlock.getSelectionAfter(),
-    "unstyled"
+    'unstyled'
   );
 
-  const newState = EditorState.push(editorState, resetBlock, "remove-range");
+  const newState = EditorState.push(editorState, resetBlock, 'remove-range');
   const newStateWithoutBlock = EditorState.forceSelection(
     newState,
     resetBlock.getSelectionAfter()

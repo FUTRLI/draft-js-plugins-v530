@@ -60,8 +60,13 @@ export default class MultiDecorator {
   getDecoratorForKey(key: string): CompositeDecorator {
     const parts = key.split(KEY_SEPARATOR);
     const index = Number(parts[0]);
+    const decorator = this.decorators.get(index);
 
-    return this.decorators.get(index);
+    if (decorator === undefined) {
+      throw new Error(`No decorator found for key "${key}"`);
+    }
+
+    return decorator;
   }
 
   /**

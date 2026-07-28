@@ -7,7 +7,7 @@ export function getBlocksWhereEntityData(
   filter: (block: FileResult | null) => boolean
 ): boolean {
   const contentState = editorState.getCurrentContent();
-  return contentState.get('blockMap').filter((block: ContentBlock) => {
+  return contentState.getBlockMap().some((block: ContentBlock) => {
     const entityData = block.getEntityAt(0)
       ? contentState.getEntity(block.getEntityAt(0)).getData()
       : null;

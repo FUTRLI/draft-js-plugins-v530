@@ -1,4 +1,4 @@
-import { List } from 'immutable';
+import { List, merge } from 'immutable';
 import {
   ContentBlock,
   EditorState,
@@ -7,6 +7,12 @@ import {
   ContentState,
   SelectionState,
 } from 'draft-js';
+
+// Draft.js ContentBlock remains constructible at runtime, but its legacy type
+// definition loses the constructor signature when paired with Immutable 4.
+const ContentBlockRecord = ContentBlock as unknown as new (
+  properties: Record<string, unknown>
+) => ContentBlock;
 
 const insertBlockAfterSelection = (
   contentState: ContentState,
@@ -20,7 +26,7 @@ const insertBlockAfterSelection = (
     if (blockKey !== targetKey) return;
     array.push(newBlock);
   });
-  return contentState.merge({
+  return merge(contentState, {
     blockMap: BlockMapBuilder.createFromArray(array),
     selectionBefore: selectionState,
     selectionAfter: selectionState.merge({
@@ -30,13 +36,13 @@ const insertBlockAfterSelection = (
       focusOffset: newBlock.getLength(),
       isBackward: false,
     }),
-  }) as ContentState;
+  });
 };
 
 export default function insertNewLine(editorState: EditorState): EditorState {
   const contentState = editorState.getCurrentContent();
   const selectionState = editorState.getSelection();
-  const newLineBlock = new ContentBlock({
+  const newLineBlock = new ContentBlockRecord({
     key: generateRandomKey(),
     type: 'unstyled',
     text: '',
@@ -47,8 +53,8 @@ export default function insertNewLine(editorState: EditorState): EditorState {
     selectionState,
     newLineBlock
   );
-  const newContent = withNewLine.merge({
-    selectionAfter: withNewLine.getSelectionAfter().set('hasFocus', true),
-  }) as ContentState;
+  const newContent = merge(withNewLine, {
+    selectionAfter: withNewLine.getSelectionAfter().merge({ hasFocus: true }),
+  });
   return EditorState.push(editorState, newContent, 'insert-fragment');
 }

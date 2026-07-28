@@ -108,7 +108,7 @@ export default (
   const store: MentionPluginStore = {
     getEditorState: undefined,
     setEditorState: undefined,
-    getPortalClientRect: (offsetKey) => clientRectFunctions.get(offsetKey)(),
+    getPortalClientRect: (offsetKey) => clientRectFunctions.get(offsetKey)!(),
     getAllSearches: () => searches,
     isEscaped: (offsetKey) => escapedSearch === offsetKey,
     escapeSearch: (offsetKey) => {
